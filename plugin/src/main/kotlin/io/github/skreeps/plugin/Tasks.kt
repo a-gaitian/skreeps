@@ -2,6 +2,7 @@ package io.github.skreeps.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.tasks.*
 import org.gradle.api.tasks.Optional
 import java.io.File
@@ -163,6 +164,9 @@ abstract class PrepareJsTask : DefaultTask() {
     @get:InputDirectory
     abstract var buildFilesDir: File
 
+    @get:Input
+    abstract val jsExtensions: ListProperty<String>
+
     @get:OutputFile
     abstract val jsFile: RegularFileProperty
 
@@ -175,9 +179,13 @@ abstract class PrepareJsTask : DefaultTask() {
     @TaskAction
     fun execute() {
         val originalContent = getOriginalJsFile().readText()
-        val globalThisFix = "if (!Game.rooms['sim']) globalThis = this;"
-        jsFile.get().asFile.writeText(
-            globalThisFix + originalContent
-        )
+
+        val sb = StringBuilder("// Written in Kotlin, managed by skreeps\n")
+        jsExtensions.get().forEach {
+            sb.appendLine(it)
+        }
+        sb.appendLine(originalContent)
+
+        jsFile.get().asFile.writeText(sb.toString())
     }
 }

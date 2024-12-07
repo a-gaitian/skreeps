@@ -69,6 +69,7 @@ class SkreepsPlugin @Inject constructor(
                 it.group = "screeps"
                 it.dependsOn(buildTask)
                 it.buildFilesDir = buildTask.outputs.files.singleFile
+                it.jsExtensions.set(extension.jsExtensions)
                 it.jsFile.set(
                     project.layout.buildDirectory.dir("screeps").get().file("main.js")
                 )
@@ -152,6 +153,7 @@ class SkreepsPlugin @Inject constructor(
         extension.deploy.servers.create(PTR_SERVER_NAME) {
             it.host.set(PTR_SERVER_HOST)
         }
+        extension.jsExtensions.add("if (!Game.rooms['sim']) globalThis = this;")
     }
 
     /**

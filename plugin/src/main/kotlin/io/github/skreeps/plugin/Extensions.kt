@@ -4,6 +4,7 @@ import org.gradle.api.Action
 import org.gradle.api.Named
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.model.ObjectFactory
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import java.io.File
 import javax.inject.Inject
@@ -13,6 +14,8 @@ open class ScreepsExtension @Inject constructor(
 ) {
     val deploy: DeployDsl = objects.newInstance(DeployDsl::class.java)
     fun deploy(action: Action<DeployDsl>) = action.execute(deploy)
+
+    val jsExtensions: ListProperty<String> = objects.listProperty(String::class.java)
 }
 
 open class DeployDsl @Inject constructor(
