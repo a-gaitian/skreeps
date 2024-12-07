@@ -7,6 +7,7 @@ dependencies {
     jsMainImplementation(project(":api"))
 }
 
+// ~/.gradle/gradle.properties
 val screepsToken: String by project
 val newbieLandUsername: String by project
 val newbieLandPassword: String by project
