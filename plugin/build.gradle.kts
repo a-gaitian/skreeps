@@ -7,11 +7,15 @@ plugins {
 
 loadProperties("../gradle.properties")
 
+dependencies {
+    implementation(libs.kotlin.plugin.multiplatform)
+}
+
 gradlePlugin {
     plugins {
         create("skreeps") {
             id = "$group.skreeps"
-            implementationClass = "io.github.gaitian.skreeps.plugin.SkreepsPlugin"
+            implementationClass = "io.github.skreeps.plugin.SkreepsPlugin"
         }
     }
 }

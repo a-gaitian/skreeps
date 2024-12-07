@@ -2,7 +2,7 @@
 kotlin = "2.1.0"
 
 [libraries]
-
+kotlin-plugin-multiplatform = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
 
