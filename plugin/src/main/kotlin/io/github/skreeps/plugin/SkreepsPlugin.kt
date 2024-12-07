@@ -65,11 +65,20 @@ class SkreepsPlugin @Inject constructor(
 
             val buildTask = project.tasks.getByName(BUILD_TASK_NAME)
 
+            val prepareJsTask = project.tasks.create("prepareJs", PrepareJsTask::class.java) {
+                it.group = "screeps"
+                it.dependsOn(buildTask)
+                it.buildFilesDir = buildTask.outputs.files.singleFile
+                it.jsFile.set(
+                    project.layout.buildDirectory.dir("screeps").get().file("main.js")
+                )
+            }
+
             fun DeployTask.commonConfig(server: ServerDsl) {
                 group = "screeps"
-                dependsOn(buildTask)
+                dependsOn(prepareJsTask)
 
-                buildFilesDir = buildTask.outputs.files.singleFile
+                preparedJsFile = prepareJsTask.jsFile
 
                 branch = extension.deploy.branch.get()
                 host = server.host.get()

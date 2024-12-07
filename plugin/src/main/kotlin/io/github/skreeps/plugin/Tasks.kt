@@ -13,8 +13,8 @@ import java.util.*
 
 abstract class DeployTask : DefaultTask() {
 
-    @get:InputDirectory
-    abstract var buildFilesDir: File
+    @get:InputFile
+    abstract var preparedJsFile: RegularFileProperty
 
     @get:Input
     abstract var branch: String
@@ -28,9 +28,7 @@ abstract class DeployTask : DefaultTask() {
 
     @Internal
     fun getJsFile(): File =
-        buildFilesDir
-            .listFiles()!!
-            .single { it.name.endsWith(".js") }
+        preparedJsFile.asFile.get()
 }
 
 abstract class DeployLocallyTask : DeployTask() {
@@ -157,5 +155,29 @@ abstract class RemoteDeployTask : AbstractRemoteDeployTask() {
         val actualToken = token ?: tokenFile.get().asFile.readText()
         requestBuilder.setHeader("X-Token", actualToken)
         requestBuilder.setHeader("X-Username", actualToken)
+    }
+}
+
+abstract class PrepareJsTask : DefaultTask() {
+
+    @get:InputDirectory
+    abstract var buildFilesDir: File
+
+    @get:OutputFile
+    abstract val jsFile: RegularFileProperty
+
+    @Internal
+    fun getOriginalJsFile(): File =
+        buildFilesDir
+            .listFiles()!!
+            .single { it.name.endsWith(".js") }
+
+    @TaskAction
+    fun execute() {
+        val originalContent = getOriginalJsFile().readText()
+        val globalThisFix = "if (!Game.rooms['sim']) globalThis = this;"
+        jsFile.get().asFile.writeText(
+            globalThisFix + originalContent
+        )
     }
 }
