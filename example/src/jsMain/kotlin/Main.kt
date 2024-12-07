@@ -4,5 +4,5 @@ import io.github.skreeps.raw.api.Game
 @JsName("loop")
 @JsExport
 fun loop() {
-    console.log(Game.gcl)
+    console.log(JSON.stringify(Game.gcl))
 }
