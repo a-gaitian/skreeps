@@ -3,6 +3,7 @@ package io.github.skreeps.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.internal.cc.base.logger
+import org.gradle.internal.extensions.core.extra
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.process.ExecOperations
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
@@ -16,7 +17,9 @@ class SkreepsPlugin @Inject constructor(
 
     companion object {
         const val KMP_PLUGIN_ID = "org.jetbrains.kotlin.multiplatform"
-        const val BUILD_TASK_NAME = "jsBrowserDistribution"
+        const val DEV_PROPERTY_NAME = "screepsDev"
+        const val PROD_BUILD_TASK_NAME = "jsBrowserDistribution"
+        const val DEV_BUILD_TASK_NAME = "jsBrowserDevelopmentExecutableDistribution"
         const val OFFICIAL_SERVER_NAME = "official"
         const val OFFICIAL_SERVER_HOST = "screeps.com"
         const val PTR_SERVER_NAME = "ptr"
@@ -63,7 +66,17 @@ class SkreepsPlugin @Inject constructor(
                 }
             }
 
-            val buildTask = project.tasks.getByName(BUILD_TASK_NAME)
+            val isDev = project.extra.has(DEV_PROPERTY_NAME)
+                    && project.extra.get(DEV_PROPERTY_NAME) == "true"
+
+            if (isDev) {
+                logger.warn("Dev mode is enabled")
+            }
+
+            val buildTask = project.tasks.getByName(
+                if (isDev) DEV_BUILD_TASK_NAME
+                else PROD_BUILD_TASK_NAME
+            )
 
             val prepareJsTask = project.tasks.create("prepareJs", PrepareJsTask::class.java) {
                 it.group = "screeps"
@@ -153,7 +166,9 @@ class SkreepsPlugin @Inject constructor(
         extension.deploy.servers.create(PTR_SERVER_NAME) {
             it.host.set(PTR_SERVER_HOST)
         }
-        extension.jsExtensions.add("if (!Game.rooms['sim']) globalThis = this;")
+        extension.jsExtensions.addAll(
+            "if (!Game.rooms['sim']) globalThis = this;"
+        )
     }
 
     /**

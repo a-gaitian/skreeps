@@ -186,6 +186,9 @@ abstract class PrepareJsTask : DefaultTask() {
         }
         sb.appendLine(originalContent)
 
-        jsFile.get().asFile.writeText(sb.toString())
+        jsFile.get().asFile.writeText(
+            sb.toString()
+                .replace("console.error", "console.log")
+        )
     }
 }
