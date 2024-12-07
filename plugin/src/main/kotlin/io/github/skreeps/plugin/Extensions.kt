@@ -30,6 +30,7 @@ open class DeployDsl @Inject constructor(
         action.execute(servers)
     }
 
+    @Suppress("UnusedReceiverParameter")
     fun NamedDomainObjectContainer<ServerDsl>.official(action: Action<ServerDsl>) {
         action.execute(servers.named("official").get())
     }
@@ -45,7 +46,6 @@ open class ServerDsl @Inject constructor(
     val host: Property<String> = objects.property(String::class.java)
 
     val port: Property<Int> = objects.property(Int::class.java)
-        .convention(443)
 
     val token: Property<String> = objects.property(String::class.java)
 

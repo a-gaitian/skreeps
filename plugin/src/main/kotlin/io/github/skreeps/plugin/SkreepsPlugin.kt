@@ -19,7 +19,8 @@ class SkreepsPlugin @Inject constructor(
         const val BUILD_TASK_NAME = "jsBrowserDistribution"
         const val OFFICIAL_SERVER_NAME = "official"
         const val OFFICIAL_SERVER_HOST = "screeps.com"
-        const val OFFICIAL_SERVER_PORT = 443
+        const val PTR_SERVER_NAME = "ptr"
+        const val PTR_SERVER_HOST = "screeps.com/ptr"
     }
 
     override fun apply(project: Project) {
@@ -44,19 +45,16 @@ class SkreepsPlugin @Inject constructor(
         project.afterEvaluate {
 
             val servers = extension.deploy.servers
+            val serversMap = servers.asMap
 
-            if (servers.size == 1
-                && servers.first().let { server ->
-                    server.name == OFFICIAL_SERVER_NAME
-                            && !server.token.isPresent
-                            && !server.username.isPresent
-                }
-            ) {
+            if (servers.size == 2 && !servers.any { server ->
+                    server.token.isPresent || server.username.isPresent
+            }) {
+                logger.warn("No servers to deploy")
                 return@afterEvaluate
             }
 
             val isLocal = extension.deploy.scriptsRoot.let {
-                println("${it.get()} ${it.isPresent}")
                 it.isPresent && File(it.get()).let { root ->
                     root.exists()
                             && root.isDirectory
@@ -75,18 +73,23 @@ class SkreepsPlugin @Inject constructor(
 
                 branch = extension.deploy.branch.get()
                 host = server.host.get()
-                port = server.port.get().toString()
+                port = server.port.orNull
             }
 
             fun AbstractRemoteDeployTask.commonRemoteConfig(server: ServerDsl) {
                 scheme = if(server.tls.get()) "https" else "http"
             }
 
+            serversMap[PTR_SERVER_NAME]!!.token.set(
+                serversMap[OFFICIAL_SERVER_NAME]!!.token
+            )
+
             servers.forEach { server ->
                 val toServerName = if(server.name == OFFICIAL_SERVER_NAME) ""
                     else "To${server.name.capitalized()}"
 
-                if (isLocal) {
+                // Cannot deploy to PTR server locally
+                if (isLocal && server.name != PTR_SERVER_NAME) {
                     val taskName = "deploy${toServerName}Locally"
                     project.tasks.create(taskName, DeployLocallyTask::class.java) {
                         it.commonConfig(server)
@@ -136,9 +139,9 @@ class SkreepsPlugin @Inject constructor(
         extension.deploy.branch.convention(gitBranch())
         extension.deploy.servers.create(OFFICIAL_SERVER_NAME) {
             it.host.set(OFFICIAL_SERVER_HOST)
-            it.host.disallowChanges()
-            it.port.set(OFFICIAL_SERVER_PORT)
-            it.port.disallowChanges()
+        }
+        extension.deploy.servers.create(PTR_SERVER_NAME) {
+            it.host.set(PTR_SERVER_HOST)
         }
     }
 

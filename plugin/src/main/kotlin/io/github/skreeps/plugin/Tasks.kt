@@ -14,16 +14,17 @@ import java.util.*
 abstract class DeployTask : DefaultTask() {
 
     @get:InputDirectory
-    lateinit var buildFilesDir: File
+    abstract var buildFilesDir: File
 
     @get:Input
-    lateinit var branch: String
+    abstract var branch: String
 
     @get:Input
-    lateinit var host: String
+    abstract var host: String
 
+    @get:Optional
     @get:Input
-    lateinit var port: String
+    abstract var port: Int?
 
     @Internal
     fun getJsFile(): File =
@@ -32,10 +33,10 @@ abstract class DeployTask : DefaultTask() {
             .single { it.name.endsWith(".js") }
 }
 
-open class DeployLocallyTask : DeployTask() {
+abstract class DeployLocallyTask : DeployTask() {
 
     @get:Input
-    lateinit var scriptsRoot: String
+    abstract var scriptsRoot: String
 
     @TaskAction
     fun execute() {
@@ -61,8 +62,13 @@ abstract class AbstractRemoteDeployTask : DeployTask() {
         customize: (HttpRequest.Builder) -> Unit = {}
     ): Map<String, String> {
         val bodyJson = groovy.json.JsonOutput.toJson(body)
+        val url = "$scheme://" +
+                host.removeSuffix("/") +
+                (if (port == null) "" else ":$port") +
+                "/" + path.removePrefix("/")
+
         val requestBuilder = HttpRequest.newBuilder()
-            .uri(URI("$scheme://$host:$port/${path.removePrefix("/")}"))
+            .uri(URI(url))
             .setHeader("Content-Type", "application/json; charset=utf-8")
             .POST(HttpRequest.BodyPublishers.ofString(bodyJson))
 
