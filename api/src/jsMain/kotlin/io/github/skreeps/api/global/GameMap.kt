@@ -3,9 +3,11 @@
 package io.github.skreeps.api.global
 
 import io.github.skreeps.api.*
-import io.github.skreeps.api.constant.FindResultCode
+import io.github.skreeps.api.constants.Find
+import io.github.skreeps.api.extended.Direction4
 import io.github.skreeps.api.prototypes.Room
-import kotlin.js.collections.JsArray
+import io.github.skreeps.api.prototypes.RoomStatus
+import io.github.skreeps.api.utils.*
 
 /**
  * A global object representing world map. Use it to navigate between rooms
@@ -20,6 +22,11 @@ external class GameMap {
      * @return The exits information, or null if the room not found
      */
     fun describeExits(roomName: String): Exits?
+
+    /**
+     * @see GameMap.describeExits
+     */
+    class Exits
 
     /**
      * Find the exit direction from the given room en route to another room
@@ -44,11 +51,11 @@ external class GameMap {
      *
      * [ERR_INVALID_ARGS] - The location is incorrect
      */
-    fun findExit(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<FindResultCode>
+    fun findExit(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<Code<Find>>
     /**
      * @see findExit
      */
-    fun findExit(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<FindResultCode>
+    fun findExit(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<Code<Find>>
 
     /**
      * Find route from the given room to another room
@@ -61,28 +68,77 @@ external class GameMap {
      *
      * [ERR_NO_PATH] - Path can not be found
      */
-    fun findRoute(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<JsArray<Any>>
+    fun findRoute(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<Array<RouteNode>>
     /**
      * @see findRoute
      */
-    fun findRoute(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<JsArray<Any>>
+    fun findRoute(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<Array<RouteNode>>
 
-    class RouteEntry {
-        val exit: Int
+    /**
+     * @see routeCallback
+     */
+    interface RouteOpts {
+        /**
+         * This callback can be used to calculate the cost of entering that room.
+         * You can use this to do things like prioritize your own rooms, or avoid some rooms.
+         * You can return a floating point cost or _Infinity_ to block the room
+         */
+        var routeCallback: (roomName: String, fromRoomName: String) -> Number
+    }
+
+    /**
+     * @see findRoute
+     */
+    class RouteNode {
+        val exit: Code<Find>
         val room: String
+    }
+
+    /**
+     * Get the linear distance (in rooms) between two rooms. You can use this function to estimate
+     * the energy cost of sending resources through terminals, or using observers and nukes
+     *
+     * @param roomName1 The name of the first room
+     * @param roomName2 The name of the second room
+     * @param continuous Whether to treat the world map continuous on borders. Set to true if you
+     * want to calculate the trade or terminal send cost. Default is false
+     *
+     * @return A number of rooms between the given two rooms
+     */
+    fun getRoomLinearDistance(roomName1: String, roomName2: String, continuous: Boolean = definedExternally): Number
+
+    /**
+     * Get a [Room.Terrain] object which provides fast access to static terrain data.
+     * This method works for any room in the world even if you have no access to it
+     *
+     * @param roomName The room name
+     *
+     * @return Return new [Room.Terrain] object
+     */
+    fun getRoomTerrain(roomName: String): Room.Terrain
+
+    /**
+     * Returns the world size as a number of rooms between world corners. For example,
+     * for a world with rooms from W50N50 to E50S50 this method will return 102
+     */
+    fun getWorldSize(): Number
+
+    fun getRoomStatus(roomName: String): CurrentRoomStatus
+
+    /**
+     * @see getRoomsStatus
+     */
+    class CurrentRoomStatus {
+        val status: StringEnum<RoomStatus>
+        val timestamp: Timestamp?
     }
 }
 
-/**
- * @see GameMap.describeExits
- */
-external class Exits
-
-fun Exits?.getRoomNameIn(direction: Direction4): String? = this?.run {
+fun GameMap.Exits?.getRoomNameIn(direction: Direction4): String? = this?.run {
     asDynamic()[direction.findCode] as String?
 }
 
-fun Exits?.toMap() = this?.run {
+fun GameMap.Exits?.toMap() = this?.run {
     buildMap {
         Direction4.list.forEach {
             this@run.getRoomNameIn(it)?.let { roomName ->
@@ -92,20 +148,5 @@ fun Exits?.toMap() = this?.run {
     }
 } ?: emptyMap()
 
-/**
- * @see RouteOpts.routeCallback
- */
-external interface RouteOpts {
-    /**
-     * This callback can be used to calculate the cost of entering that room.
-     * You can use this to do things like prioritize your own rooms, or avoid some rooms.
-     * You can return a floating point cost or _Infinity_ to block the room
-     */
-    var routeCallback: (roomName: String, fromRoomName: String) -> Number
-}
-
-/**
- * @see RouteOpts.routeCallback
- */
 fun routeOpts(routeCallback: (roomName: String, fromRoomName: String) -> Number) =
-    object: RouteOpts { override var routeCallback = routeCallback }
+    object: GameMap.RouteOpts { override var routeCallback = routeCallback }

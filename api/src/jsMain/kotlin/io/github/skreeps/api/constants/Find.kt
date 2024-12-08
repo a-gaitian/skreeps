@@ -1,13 +1,8 @@
-package io.github.skreeps.api.constant
+package io.github.skreeps.api.constants
 
-import io.github.skreeps.api.Result
-import io.github.skreeps.api.orThrow
+import io.github.skreeps.api.utils.CodeEnum
 
-interface FindResultCode: ResultCode
-
-fun FindResultCode.asFindCode() = FindCode.valueOf(value)
-
-enum class FindCode(val code: Int) {
+enum class Find(override val code: Int) : CodeEnum {
     FIND_EXIT_TOP(1),
     FIND_EXIT_RIGHT(3),
     FIND_EXIT_BOTTOM(5),
@@ -36,11 +31,4 @@ enum class FindCode(val code: Int) {
     FIND_HOSTILE_POWER_CREEPS(121),
     FIND_DEPOSITS(122),
     FIND_RUINS(123);
-
-    companion object {
-        fun valueOf(code: Int): FindCode =
-            FindCode.entries.first { it.code == code }
-    }
 }
-
-fun Result<FindResultCode>.unwrap() = orThrow().asFindCode()
