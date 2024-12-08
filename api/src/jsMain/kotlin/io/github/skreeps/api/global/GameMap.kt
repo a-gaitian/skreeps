@@ -15,6 +15,18 @@ import io.github.skreeps.api.utils.*
 external class GameMap {
 
     /**
+     * Map visuals provide a way to show various visual debug info on the game map.
+     * You can use the [Game.map.visual][MapVisual] object to draw simple shapes that are visible only to you.
+     *
+     * Map visuals are not stored in the database, their only purpose is to display something in your browser.
+     * All drawings will persist for one tick and will disappear if not updated.
+     * All [Game.map.visual][MapVisual] calls have no added CPU cost (their cost is natural and mostly related to simple JSON.serialize calls). However, there is a usage limit: you cannot post more than 1000 KB of serialized data.
+     *
+     * All draw coordinates are measured in global game coordinates ([RoomPosition][io.github.skreeps.api.prototypes.RoomPosition])
+     */
+    val visual: MapVisual
+
+    /**
      * List all exits available from the room with the given name
      *
      * @param roomName the room name
@@ -123,13 +135,24 @@ external class GameMap {
      */
     fun getWorldSize(): Number
 
+    /**
+     * Gets availablity status of the room with the specified name. Learn more about starting areas
+     * from [this article](https://docs.screeps.com/start-areas.html)
+     */
     fun getRoomStatus(roomName: String): CurrentRoomStatus
 
     /**
      * @see getRoomsStatus
      */
     class CurrentRoomStatus {
+
         val status: StringEnum<RoomStatus>
+
+        /**
+         * Status expiration time in
+         * [milliseconds since UNIX epoch time](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime#Syntax).
+         * This property is null if the status is permanent
+         */
         val timestamp: Timestamp?
     }
 }
