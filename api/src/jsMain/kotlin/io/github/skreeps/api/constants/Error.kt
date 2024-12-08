@@ -1,7 +1,9 @@
 package io.github.skreeps.api.constants
 
+import io.github.skreeps.api.utils.Code
 import io.github.skreeps.api.utils.CodeEnum
 import io.github.skreeps.api.utils.ScreepsApiException
+import io.github.skreeps.api.utils.asEnum
 
 enum class Error(override val code: Int) : CodeEnum {
     OK(0),
@@ -27,3 +29,5 @@ enum class Error(override val code: Int) : CodeEnum {
             throw ScreepsApiException(this)
     }
 }
+
+fun Code<Error>.orThrow() = asEnum().orThrow()

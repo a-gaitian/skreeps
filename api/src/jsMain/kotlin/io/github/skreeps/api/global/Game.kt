@@ -3,7 +3,7 @@
 package io.github.skreeps.api.global
 
 import io.github.skreeps.api.prototypes.*
-import kotlin.js.collections.JsMap
+import io.github.skreeps.api.utils.ResultMap
 
 /**
  * The main global game object containing all the game play information
@@ -13,22 +13,22 @@ external object Game {
     /**
      * A hash containing all your construction sites with their id as hash keys
      */
-    val constructionSites: Map<String, ConstructionSite>
+    val constructionSites: ResultMap<ConstructionSite>
 
     /**
      * An object containing information about your CPU usage
      */
-    val cpu: GameCpu
+    val cpu: Cpu
 
     /**
      * A hash containing all your creeps with creep names as hash keys
      */
-    val creeps: Map<String, Creep>
+    val creeps: ResultMap<Creep>
 
     /**
      * A hash containing all your flags with flag names as hash keys
      */
-    val flags: Map<String, Flag>
+    val flags: ResultMap<Flag>
 
     /**
      * Your [Global Control Level](https://docs.screeps.com/control.html#Global-Control-Level)
@@ -66,25 +66,25 @@ external object Game {
     /**
      * A global object representing the in-game market
      */
-    val market: GameMarket
+    val market: Market
 
     /**
      * A hash containing all your power creeps with their names as hash keys.
      * Even power creeps not spawned in the world can be accessed here
      */
-    val powerCreeps: Map<String, PowerCreep>
+    val powerCreeps: ResultMap<PowerCreep>
 
     /**
      * An object with your global resources that are bound to the account, like pixels or cpu unlocks.
      * Each object key is a resource constant, values are resources amounts
      */
-    val resources: Map<String, Number>
+    val resources: ResultMap<Number>
 
     /**
      * A hash containing all the rooms available to you with room names as hash keys.
      * A room is visible if you have a creep or an owned structure in it
      */
-    val rooms: JsMap<String, Room>
+    val rooms: ResultMap<Room>
 
     /**
      * An object describing the world shard where your script is currently being executed in
@@ -112,12 +112,12 @@ external object Game {
     /**
      * A hash containing all your spawns with spawn names as hash keys
      */
-    val spawns: Map<String, StructureSpawn>
+    val spawns: ResultMap<StructureSpawn>
 
     /**
      * A hash containing all your structures with structure id as hash keys
      */
-    val structures: Map<String, Structure>
+    val structures: ResultMap<Structure>
 
     /**
      * System game tick counter. It is automatically incremented on every tick.

@@ -1,12 +1,16 @@
+@file:OptIn(ExperimentalJsExport::class)
+@file:Suppress("NON_EXPORTABLE_TYPE")
+
 package io.github.skreeps.api.global
 
 import io.github.skreeps.api.constants.Error
 import io.github.skreeps.api.utils.Code
+import io.github.skreeps.api.utils.ResultMap
 
 /**
  * An object containing information about your CPU usage
  */
-external class GameCpu {
+external class Cpu {
 
     /**
      * Your assigned CPU limit for the current shard
@@ -16,7 +20,7 @@ external class GameCpu {
     /**
      * An amount of available CPU time at the current game tick
      *
-     * Usually it is higher than [Game.cpu.limit][GameCpu.limit]. [Learn more](https://docs.screeps.com/cpu-limit.html)
+     * Usually it is higher than [Game.cpu.limit][Cpu.limit]. [Learn more](https://docs.screeps.com/cpu-limit.html)
      */
     val tickLimit: Number
 
@@ -28,7 +32,7 @@ external class GameCpu {
     /**
      * An object with limits for each shard with shard names as keys. You can use [setShardLimits] method to re-assign them
      */
-    val shardLimits: Map<String, Number>
+    val shardLimits: ResultMap<Number>
 
     /**
      * Whether full CPU is currently unlocked for your account
@@ -111,7 +115,7 @@ external class GameCpu {
      * Allocate CPU limits to different shards. Total amount of CPU should remain equal to
      * [Game.Cpu.shardLimits]. This method can be used only once per 12 hours
      *
-     * @param limits An object with CPU values for each shard in the same format as [Game.cpu.shardLimits][GameCpu.shardLimits]
+     * @param limits An object with CPU values for each shard in the same format as [Game.cpu.shardLimits][Cpu.shardLimits]
      *
      * @return One of the following codes:
      *
@@ -121,7 +125,7 @@ external class GameCpu {
      *
      * [ERR_INVALID_ARGS] - The argument is not a valid shard limits object
      */
-    fun setShardLimits(limits: Map<String, Number>): Code<Error>
+    fun setShardLimits(limits: dynamic): Code<Error>
 
     /**
      * Unlock full CPU for your account for additional 24 hours. This method will consume
