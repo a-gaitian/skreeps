@@ -1,4 +1,6 @@
-@file:OptIn(ExperimentalJsExport::class, ExperimentalStdlibApi::class, ExperimentalStdlibApi::class)
+@file:OptIn(ExperimentalJsExport::class, ExperimentalStdlibApi::class, ExperimentalStdlibApi::class,
+    ExperimentalStdlibApi::class
+)
 @file:Suppress("NON_EXPORTABLE_TYPE")
 
 package io.github.skreeps.api.global
@@ -55,6 +57,37 @@ external class MapVisual {
      * @param pos The position object of the label baseline
      */
     fun text(text: String, pos: RoomPosition, style: TextStyle = definedExternally): MapVisual
+
+    /**
+     * Remove all visuals from the map
+     *
+     * @return The [MapVisual] object itself, so that you can chain calls
+     */
+    fun clear(): MapVisual
+
+    /**
+     * Get the stored size of all visuals added on the map in the current tick.
+     * It must not exceed 1024,000 (1000 KB)
+     *
+     * @return The size of the visuals in bytes
+     */
+    fun getSize(): Number
+
+    /**
+     * Returns a compact representation of all visuals added on the map in the current tick
+     *
+     * @return A string with visuals data. There's not much you can do with the string besides store them for later
+     */
+    fun export(): String
+
+    /**
+     * Add previously exported (with [Game.map.visual.export][export]) map visuals to the map visual data of the current tick
+     *
+     * @param val The string returned from [Game.map.visual.export][export]
+     *
+     * @return The [MapVisual] object itself, so that you can chain calls
+     */
+    fun import(`val`: String): MapVisual
 }
 
 @JsExport
