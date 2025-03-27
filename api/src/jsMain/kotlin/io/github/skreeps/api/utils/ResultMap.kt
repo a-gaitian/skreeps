@@ -15,3 +15,10 @@ fun <T> ResultMap<T>.keys(): List<String> =
 
 fun <T> ResultMap<T>.values(): List<T> =
     Object.values(this).map { it.unsafeCast<T>() }
+
+operator fun <T> ResultMap<T>.get(key: String): T? =
+    asDynamic()[key].unsafeCast<T>()
+
+operator fun <T> ResultMap<T>.set(field: String, value: T) {
+    asDynamic()[field] = value
+}
