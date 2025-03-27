@@ -3,7 +3,9 @@
 package io.github.skreeps.api.global
 
 import io.github.skreeps.api.*
+import io.github.skreeps.api.constants.Error.*
 import io.github.skreeps.api.constants.Find
+import io.github.skreeps.api.constants.Find.*
 import io.github.skreeps.api.extended.Direction4
 import io.github.skreeps.api.prototypes.Room
 import io.github.skreeps.api.prototypes.RoomStatus

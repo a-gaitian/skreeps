@@ -106,7 +106,7 @@ external object Game {
         /**
          * Whether this shard belongs to the [PTR](https://docs.screeps.com/ptr.html)
          */
-        val ptr: Boolean // NPE with JsBoolean
+        val ptr: Boolean
     }
 
     /**
