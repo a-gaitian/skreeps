@@ -3,8 +3,7 @@
 
 package io.github.skreeps.api.global
 
-import io.github.skreeps.api.constants.Error
-import io.github.skreeps.api.utils.Code
+import io.github.skreeps.api.constants.ErrorCode
 import io.github.skreeps.api.utils.ResultMap
 
 /**
@@ -125,7 +124,7 @@ external class Cpu {
      *
      * [ERR_INVALID_ARGS] - The argument is not a valid shard limits object
      */
-    fun setShardLimits(limits: dynamic): Code<Error>
+    fun setShardLimits(limits: dynamic): ErrorCode
 
     /**
      * Unlock full CPU for your account for additional 24 hours. This method will consume
@@ -141,7 +140,7 @@ external class Cpu {
      *
      * [ERR_FULL] - Your CPU is unlocked with a subscription
      */
-    fun unlock(): Code<Error>
+    fun unlock(): ErrorCode
 
     /**
      * Generate 1 pixel resource unit for 10000 CPU from your bucket
@@ -152,5 +151,5 @@ external class Cpu {
      *
      * [ERR_NOT_ENOUGH_RESOURCES] - Your bucket does not have enough CPU
      */
-    fun generatePixel(): Code<Error>
+    fun generatePixel(): ErrorCode
 }

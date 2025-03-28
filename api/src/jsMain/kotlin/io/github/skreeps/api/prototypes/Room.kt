@@ -7,24 +7,26 @@ external class Room {
     }
 }
 
-enum class RoomStatus {
+typealias  RoomStatus = String
+
+object RoomStatuses {
     /**
      * The room has no restrictions
      */
-    Normal,
+    val Normal = "normal"
 
     /**
      * The room is not available
      */
-    Closed,
+    val Closed = "closed"
 
     /**
      * The room is part of a novice area
      */
-    Novice,
+    val Novice = "novice"
 
     /**
      * The room is part of a respawn area
      */
-    Respawn
+    val Respawn = "respawn"
 }

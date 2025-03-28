@@ -1,10 +1,10 @@
 package io.github.skreeps.api.prototypes
 
-import io.github.skreeps.api.constants.Find.*
+import io.github.skreeps.api.constants.FindCode.*
 
 /**
  * The base prototype for a structure that has an owner. Such structures can be found
- * using [FIND_MY_STRUCTURES] and [FIND_HOSTILE_STRUCTURES] constants
+ * using [MyStructures] and [HostileStructures] constants
  */
 abstract external class OwnedStructure: Structure {
 

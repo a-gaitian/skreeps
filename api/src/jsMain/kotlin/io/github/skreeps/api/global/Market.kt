@@ -3,11 +3,9 @@
 
 package io.github.skreeps.api.global
 
-import io.github.skreeps.api.constants.Error
-import io.github.skreeps.api.constants.Error.*
+import io.github.skreeps.api.constants.ErrorCode
 import io.github.skreeps.api.constants.Resource
 import io.github.skreeps.api.prototypes.Owner
-import io.github.skreeps.api.utils.Code
 import io.github.skreeps.api.utils.ResultMap
 import io.github.skreeps.api.utils.Timestamp
 
@@ -62,11 +60,11 @@ external class Market {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_INVALID_ARGS] - The order ID is not valid
+     * [InvalidArgs] - The order ID is not valid
      */
-    fun cancelOrder(orderId: String): Code<Error>
+    fun cancelOrder(orderId: String): ErrorCode
 
     /**
      * Change the price of an existing order. If [newPrice] is greater than old price,
@@ -77,15 +75,15 @@ external class Market {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_OWNER] - You are not the owner of the room's terminal or there is no terminal
+     * [NotOwner] - You are not the owner of the room's terminal or there is no terminal
      *
-     * [ERR_NOT_ENOUGH_RESOURCES] - You don't have enough credits to pay a fee
+     * [NotEnoughResources] - You don't have enough credits to pay a fee
      *
-     * [ERR_INVALID_ARGS] - The arguments provided are invalid
+     * [InvalidArgs] - The arguments provided are invalid
      */
-    fun changeOrderPrice(orderId: String, newPrice: Number): Code<Error>
+    fun changeOrderPrice(orderId: String, newPrice: Number): ErrorCode
 
     /**
      * Create a market order in your terminal. You will be charged `price*amount*0.05` credits when
@@ -95,17 +93,17 @@ external class Market {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_OWNER] - You are not the owner of the room's terminal or there is no terminal
+     * [NotOwner] - You are not the owner of the room's terminal or there is no terminal
      *
-     * [ERR_NOT_ENOUGH_RESOURCES] - You don't have enough credits to pay a fee
+     * [NotEnoughResources] - You don't have enough credits to pay a fee
      *
-     * [ERR_FULL] - You cannot create more than 50 orders
+     * [Full] - You cannot create more than 50 orders
      *
-     * [ERR_INVALID_ARGS] - The arguments provided are invalid
+     * [InvalidArgs] - The arguments provided are invalid
      */
-    fun createOrder(params: CreateOrderParams): Code<Error>
+    fun createOrder(params: CreateOrderParams): ErrorCode
 
     /**
      * Execute a trade deal from your Terminal in [yourRoomName] to another player's Terminal using
@@ -122,19 +120,19 @@ external class Market {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_OWNER] - You don't have a terminal in the target room
+     * [NotOwner] - You don't have a terminal in the target room
      *
-     * [ERR_NOT_ENOUGH_RESOURCES] - You don't have enough credits or resource units
+     * [NotEnoughResources] - You don't have enough credits or resource units
      *
-     * [ERR_FULL] - You cannot execute more than 10 deals during one tick
+     * [Full] - You cannot execute more than 10 deals during one tick
      *
-     * [ERR_INVALID_ARGS] - The arguments provided are invalid
+     * [InvalidArgs] - The arguments provided are invalid
      *
-     * [ERR_TIRED] - The target terminal is still cooling down
+     * [Tired] - The target terminal is still cooling down
      */
-    fun deal(orderId: String, amount: Number, yourRoomName: String? = definedExternally): Code<Error>
+    fun deal(orderId: String, amount: Number, yourRoomName: String? = definedExternally): ErrorCode
 
     /**
      * Add more capacity to an existing order. It will affect `remainingAmount` and `totalAmount` properties.
@@ -145,13 +143,13 @@ external class Market {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_ENOUGH_RESOURCES] - You don't have enough credits to pay a fee
+     * [NotEnoughResources] - You don't have enough credits to pay a fee
      *
-     * [ERR_INVALID_ARGS] - The arguments provided are invalid
+     * [InvalidArgs] - The arguments provided are invalid
      */
-    fun extendOrder(orderId: String, addAmount: Number): Code<Error>
+    fun extendOrder(orderId: String, addAmount: Number): ErrorCode
 
     /**
      * Get other players' orders currently active on the market. This method supports internal indexing by `resourceType`

@@ -1,10 +1,8 @@
 package io.github.skreeps.api.prototypes
 
-import io.github.skreeps.api.constants.Error
-import io.github.skreeps.api.constants.Error.*
+import io.github.skreeps.api.constants.ErrorCode
 import io.github.skreeps.api.constants.StructureType
 import io.github.skreeps.api.global.Game
-import io.github.skreeps.api.utils.Code
 
 /**
  * The base prototype object of all structures
@@ -37,13 +35,13 @@ abstract external class Structure: RoomObject {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_OWNER] - You are not the owner of this structure, and it's not in your room
+     * [NotOwner] - You are not the owner of this structure, and it's not in your room
      *
-     * [ERR_BUSY] - Hostile creeps are in the room
+     * [Busy] - Hostile creeps are in the room
      */
-    fun destroy(): Code<Error>
+    fun destroy(): ErrorCode
 
     /**
      * Check whether this structure can be used. If room controller level is insufficient,
@@ -59,11 +57,11 @@ abstract external class Structure: RoomObject {
      *
      * @return One of the following codes:
      *
-     * [OK] - The operation has been scheduled successfully
+     * [Ok] - The operation has been scheduled successfully
      *
-     * [ERR_NOT_OWNER] - You are not the owner of this structure
+     * [NotOwner] - You are not the owner of this structure
      *
-     * [ERR_INVALID_ARGS] - `enable` argument is not a boolean value
+     * [InvalidArgs] - `enable` argument is not a boolean value
      */
-    fun notifyWhenAttacked(enabled: Boolean): Code<Error>
+    fun notifyWhenAttacked(enabled: Boolean): ErrorCode
 }

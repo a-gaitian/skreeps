@@ -3,10 +3,8 @@
 package io.github.skreeps.api.global
 
 import io.github.skreeps.api.*
-import io.github.skreeps.api.constants.Error.*
-import io.github.skreeps.api.constants.Find
-import io.github.skreeps.api.constants.Find.*
-import io.github.skreeps.api.extended.Direction4
+import io.github.skreeps.api.constants.FindCode
+import io.github.skreeps.api.constants.FindCode.*
 import io.github.skreeps.api.prototypes.Room
 import io.github.skreeps.api.prototypes.RoomStatus
 import io.github.skreeps.api.utils.*
@@ -51,25 +49,25 @@ external class GameMap {
      *
      * @return The room direction constant, one of the following:
      *
-     * [FIND_EXIT_TOP]
+     * [ExitTop]
      *
-     * [FIND_EXIT_RIGHT]
+     * [ExitRight]
      *
-     * [FIND_EXIT_BOTTOM]
+     * [ExitBottom]
      *
-     * [FIND_EXIT_LEFT]
+     * [ExitLeft]
      *
      * Or one of the following error codes:
      *
-     * [ERR_NO_PATH] - Path can not be found
+     * [NoPath] - Path can not be found
      *
-     * [ERR_INVALID_ARGS] - The location is incorrect
+     * [InvalidArgs] - The location is incorrect
      */
-    fun findExit(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<Code<Find>>
+    fun findExit(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<FindCode>
     /**
      * @see findExit
      */
-    fun findExit(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<Code<Find>>
+    fun findExit(fromRoom: String, toRoom: String, opts: RouteOpts? = definedExternally): Result<FindCode>
 
     /**
      * Find route from the given room to another room
@@ -80,7 +78,7 @@ external class GameMap {
      *
      * @return The route array or one of the following error codes:
      *
-     * [ERR_NO_PATH] - Path can not be found
+     * [NoPath] - Path can not be found
      */
     fun findRoute(fromRoom: Room, toRoom: Room, opts: RouteOpts? = definedExternally): Result<Array<RouteNode>>
     /**
@@ -104,7 +102,7 @@ external class GameMap {
      * @see findRoute
      */
     class RouteNode {
-        val exit: Code<Find>
+        val exit: FindCode
         val room: String
     }
 
@@ -148,7 +146,7 @@ external class GameMap {
      */
     class CurrentRoomStatus {
 
-        val status: StringEnum<RoomStatus>
+        val status: RoomStatus
 
         /**
          * Status expiration time in
@@ -158,20 +156,6 @@ external class GameMap {
         val timestamp: Timestamp?
     }
 }
-
-fun GameMap.Exits?.getRoomNameIn(direction: Direction4): String? = this?.run {
-    asDynamic()[direction.findCode] as String?
-}
-
-fun GameMap.Exits?.toMap() = this?.run {
-    buildMap {
-        Direction4.list.forEach {
-            this@run.getRoomNameIn(it)?.let { roomName ->
-                put(it, roomName)
-            }
-        }
-    }
-} ?: emptyMap()
 
 fun routeOpts(routeCallback: (roomName: String, fromRoomName: String) -> Number) =
     object: GameMap.RouteOpts { override var routeCallback = routeCallback }

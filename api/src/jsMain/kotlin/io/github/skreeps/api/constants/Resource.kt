@@ -1,118 +1,110 @@
 package io.github.skreeps.api.constants
 
-interface Resource {
-    companion object {
-        private fun of(value: String) =
-            value.unsafeCast<Resource>()
+typealias Resource = String
 
-        val Energy = of("energy")
-        val Power = of("power")
-
-        val Hydrogen = of("H")
-        val Oxygen = of("O")
-        val Utrium = of("U")
-        val Lemergium = of("L")
-        val Keanium = of("K")
-        val Zynthium = of("Z")
-        val Catalyst = of("X")
-        val Ghodium = of("G")
-
-        val Silicon = of("silicon")
-        val Metal = of("metal")
-        val Biomass = of("biomass")
-        val Mist = of("mist")
-
-        val Hydroxide = of("OH")
-        val ZynthiumKeanite = of("ZK")
-        val UtriumLemergite = of("UL")
-
-        val UtriumHydride = of("UH")
-        val UtriumOxide = of("UO")
-        val KeaniumHydride = of("KH")
-        val KeaniumOxide = of("KO")
-        val LemergiumHydride = of("LH")
-        val LemergiumOxide = of("LO")
-        val ZynthiumHydride = of("ZH")
-        val ZynthiumOxide = of("ZO")
-        val GhodiumHydride = of("GH")
-        val GhodiumOxide = of("GO")
-
-        val UtriumAcid = of("UH2O")
-        val UtriumAlkalide = of("UHO2")
-        val KeaniumAcid = of("KH2O")
-        val KeaniumAlkalide = of("KHO2")
-        val LemergiumAcid = of("LH2O")
-        val LemergiumAlkalide = of("LHO2")
-        val ZynthiumAcid = of("ZH2O")
-        val ZynthiumAlkalide = of("ZHO2")
-        val GhodiumAcid = of("GH2O")
-        val GhodiumAlkalide = of("GHO2")
-
-        val CatalyzedUtriumAcid = of("XUH2O")
-        val CatalyzedUtriumAlkalide = of("XUHO2")
-        val CatalyzedKeaniumAcid = of("XKH2O")
-        val CatalyzedKeaniumAlkalide = of("XKHO2")
-        val CatalyzedLemergiumAcid = of("XLH2O")
-        val CatalyzedLemergiumAlkalide = of("XLHO2")
-        val CatalyzedZynthiumAcid = of("XZH2O")
-        val CatalyzedZynthiumAlkalide = of("XZHO2")
-        val CatalyzedGhodiumAcid = of("XGH2O")
-        val CatalyzedGhodiumAlkalide = of("XGHO2")
-
-        val Ops = of("ops")
-
-        val UtriumBar = of("utrium_bar")
-        val LemergiumBar = of("lemergium_bar")
-        val ZynthiumBar = of("zynthium_bar")
-        val KeaniumBar = of("keanium_bar")
-        val GhodiumMelt = of("ghodium_melt")
-        val Oxidant = of("oxidant")
-        val Reductant = of("reductant")
-        val Purifier = of("purifier")
-        val Battery = of("battery")
-
-        val Composite = of("composite")
-        val Crystal = of("crystal")
-        val Liquid = of("liquid")
-
-        val Wire = of("wire")
-        val Switch = of("switch")
-        val Transistor = of("transistor")
-        val Microchip = of("microchip")
-        val Circuit = of("circuit")
-        val Device = of("device")
-
-        val Cell = of("cell")
-        val Phlegm = of("phlegm")
-        val Tissue = of("tissue")
-        val Muscle = of("muscle")
-        val Organoid = of("organoid")
-        val Organism = of("organism")
-
-        val Alloy = of("alloy")
-        val Tube = of("tube")
-        val Fixtures = of("fixtures")
-        val Frame = of("frame")
-        val Hydraulics = of("hydraulics")
-        val Machine = of("machine")
-
-        val Condensate = of("condensate")
-        val Concentrate = of("concentrate")
-        val Extract = of("extract")
-        val Spirit = of("spirit")
-        val Emanation = of("emanation")
-        val Essence = of("essence")
+object Resources {
+    object Intershard {
+        const val SubscriptionToken = "token"
+        const val CpuUnlock = "cpuUnlock"
+        const val Pixel = "pixel"
+        const val AccessKey = "accessKey"
     }
 
-    interface Intershard {
-        companion object {
-            private fun of(value: String) =
-                value.unsafeCast<Intershard>()
+    const val Energy = "energy"
+    const val Power = "power"
 
-            val SubscriptionToken = of("token")
-            val CpuUnlock = of("cpuUnlock")
-            val Pixel = of("pixel")
-            val AccessKey = of("accessKey")
-        }
-    }
+    const val Hydrogen = "H"
+    const val Oxygen = "O"
+    const val Utrium = "U"
+    const val Lemergium = "L"
+    const val Keanium = "K"
+    const val Zynthium = "Z"
+    const val Catalyst = "X"
+    const val Ghodium = "G"
+
+    const val Silicon = "silicon"
+    const val Metal = "metal"
+    const val Biomass = "biomass"
+    const val Mist = "mist"
+
+    const val Hydroxide = "OH"
+    const val ZynthiumKeanite = "ZK"
+    const val UtriumLemergite = "UL"
+
+    const val UtriumHydride = "UH"
+    const val UtriumOxide = "UO"
+    const val KeaniumHydride = "KH"
+    const val KeaniumOxide = "KO"
+    const val LemergiumHydride = "LH"
+    const val LemergiumOxide = "LO"
+    const val ZynthiumHydride = "ZH"
+    const val ZynthiumOxide = "ZO"
+    const val GhodiumHydride = "GH"
+    const val GhodiumOxide = "GO"
+
+    const val UtriumAcid = "UH2O"
+    const val UtriumAlkalide = "UHO2"
+    const val KeaniumAcid = "KH2O"
+    const val KeaniumAlkalide = "KHO2"
+    const val LemergiumAcid = "LH2O"
+    const val LemergiumAlkalide = "LHO2"
+    const val ZynthiumAcid = "ZH2O"
+    const val ZynthiumAlkalide = "ZHO2"
+    const val GhodiumAcid = "GH2O"
+    const val GhodiumAlkalide = "GHO2"
+
+    const val CatalyzedUtriumAcid = "XUH2O"
+    const val CatalyzedUtriumAlkalide = "XUHO2"
+    const val CatalyzedKeaniumAcid = "XKH2O"
+    const val CatalyzedKeaniumAlkalide = "XKHO2"
+    const val CatalyzedLemergiumAcid = "XLH2O"
+    const val CatalyzedLemergiumAlkalide = "XLHO2"
+    const val CatalyzedZynthiumAcid = "XZH2O"
+    const val CatalyzedZynthiumAlkalide = "XZHO2"
+    const val CatalyzedGhodiumAcid = "XGH2O"
+    const val CatalyzedGhodiumAlkalide = "XGHO2"
+
+    const val Ops = "ops"
+
+    const val UtriumBar = "utrium_bar"
+    const val LemergiumBar = "lemergium_bar"
+    const val ZynthiumBar = "zynthium_bar"
+    const val KeaniumBar = "keanium_bar"
+    const val GhodiumMelt = "ghodium_melt"
+    const val Oxidant = "oxidant"
+    const val Reductant = "reductant"
+    const val Purifier = "purifier"
+    const val Battery = "battery"
+
+    const val Composite = "composite"
+    const val Crystal = "crystal"
+    const val Liquid = "liquid"
+
+    const val Wire = "wire"
+    const val Switch = "switch"
+    const val Transistor = "transistor"
+    const val Microchip = "microchip"
+    const val Circuit = "circuit"
+    const val Device = "device"
+
+    const val Cell = "cell"
+    const val Phlegm = "phlegm"
+    const val Tissue = "tissue"
+    const val Muscle = "muscle"
+    const val Organoid = "organoid"
+    const val Organism = "organism"
+
+    const val Alloy = "alloy"
+    const val Tube = "tube"
+    const val Fixtures = "fixtures"
+    const val Frame = "frame"
+    const val Hydraulics = "hydraulics"
+    const val Machine = "machine"
+
+    const val Condensate = "condensate"
+    const val Concentrate = "concentrate"
+    const val Extract = "extract"
+    const val Spirit = "spirit"
+    const val Emanation = "emanation"
+    const val Essence = "essence"
 }

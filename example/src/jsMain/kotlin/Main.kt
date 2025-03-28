@@ -1,10 +1,10 @@
 @file:OptIn(ExperimentalJsCollectionsApi::class, ExperimentalJsCollectionsApi::class, ExperimentalJsExport::class)
 
-import io.github.skreeps.api.constants.StructureType
+import io.github.skreeps.api.constants.BodyParts
+import io.github.skreeps.api.constants.Directions
+import io.github.skreeps.api.constants.orThrow
 import io.github.skreeps.api.global.*
-import io.github.skreeps.api.prototypes.CostMatrix
-import io.github.skreeps.api.prototypes.RoomPosition
-import io.github.skreeps.api.prototypes.RoomVisual
+import io.github.skreeps.api.prototypes.SpawnOpts
 import io.github.skreeps.api.utils.get
 
 @OptIn(ExperimentalJsExport::class)
@@ -12,8 +12,16 @@ import io.github.skreeps.api.utils.get
 fun loop() = try {
 
     val spawn1 = Game.spawns["Spawn1"]!!
-    println(spawn1.structureType)
-    println(spawn1.structureType == StructureType.Spawn)
+    if (spawn1.spawning != null) {
+        println("Creep spawning ${spawn1.spawning}")
+    } else {
+        println("Spawning new creep")
+        spawn1.spawnCreep(
+            arrayOf(BodyParts.Move),
+            "Worker_${Game.time}",
+            SpawnOpts(directions = arrayOf(Directions.LEFT))
+        ).orThrow()
+    }
 
 } catch (e: Throwable) {
     println(e.stackTraceToString())

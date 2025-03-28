@@ -1,30 +1,27 @@
 package io.github.skreeps.api.constants
 
-interface StructureType {
-    companion object {
-        private fun of(value: String) =
-            value.unsafeCast<StructureType>()
+typealias StructureType = String
 
-        val Spawn = of("spawn")
-        val Extension = of("extension")
-        val Road = of("road")
-        val Wall = of("constructedWall")
-        val Rampart = of("rampart")
-        val KeeperLair = of("keeperLair")
-        val Portal = of("portal")
-        val Controller = of("controller")
-        val Link = of("link")
-        val Storage = of("storage")
-        val Tower = of("tower")
-        val Observer = of("observer")
-        val PowerBank = of("powerBank")
-        val PowerSpawn = of("powerSpawn")
-        val Extractor = of("extractor")
-        val Lab = of("lab")
-        val Terminal = of("terminal")
-        val Container = of("container")
-        val Nuker = of("nuker")
-        val Factory = of("factory")
-        val InvaderCore = of("invaderCore")
-    }
+object StructureTypes {
+    const val Spawn = "spawn"
+    const val Extension = "extension"
+    const val Road = "road"
+    const val Wall = "constructedWall"
+    const val Rampart = "rampart"
+    const val KeeperLair = "keeperLair"
+    const val Portal = "portal"
+    const val Controller = "controller"
+    const val Link = "link"
+    const val Storage = "storage"
+    const val Tower = "tower"
+    const val Observer = "observer"
+    const val PowerBank = "powerBank"
+    const val PowerSpawn = "powerSpawn"
+    const val Extractor = "extractor"
+    const val Lab = "lab"
+    const val Terminal = "terminal"
+    const val Container = "container"
+    const val Nuker = "nuker"
+    const val Factory = "factory"
+    const val InvaderCore = "invaderCore"
 }

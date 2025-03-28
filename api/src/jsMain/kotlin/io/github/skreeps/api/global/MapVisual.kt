@@ -1,5 +1,5 @@
 @file:OptIn(ExperimentalJsExport::class, ExperimentalStdlibApi::class, ExperimentalStdlibApi::class,
-    ExperimentalStdlibApi::class
+    ExperimentalStdlibApi::class, ExperimentalStdlibApi::class
 )
 @file:Suppress("NON_EXPORTABLE_TYPE")
 
