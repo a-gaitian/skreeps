@@ -40,7 +40,7 @@ external class MapVisual {
      *
      * @return The [MapVisual] object itself, so that you can chain calls
      */
-    fun rect(topLeftPost: RoomPosition, width: Number, height: Number, style: ShapeStyle = definedExternally): MapVisual
+    fun rect(topLeftPos: RoomPosition, width: Number, height: Number, style: ShapeStyle = definedExternally): MapVisual
 
     /**
      * Draw a polygon

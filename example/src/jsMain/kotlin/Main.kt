@@ -3,6 +3,7 @@
 import io.github.skreeps.api.global.*
 import io.github.skreeps.api.prototypes.CostMatrix
 import io.github.skreeps.api.prototypes.RoomPosition
+import io.github.skreeps.api.prototypes.RoomVisual
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
@@ -23,6 +24,9 @@ fun loop() = try {
         print("(${it.x}, ${it.y}) -> ")
     }
     println("Target")
+
+    RoomVisual("W33S27")
+        .poly(result.path, ShapeStyle(fillColor = Color.Transparent, lineStyle = LineStyle(lineVariant = LineVariant.Dashed)))
 
 } catch (e: Throwable) {
     println(e.stackTraceToString())
