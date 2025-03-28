@@ -9,19 +9,12 @@ dependencies {
 
 // ~/.gradle/gradle.properties
 val screepsToken: String by project
-val newbieLandUsername: String by project
-val newbieLandPassword: String by project
 
 screeps {
     deploy {
         servers {
             official {
                 token = screepsToken
-            }
-            create("NewbieLand") {
-                host = "screeps.newbieland.net"
-                username = newbieLandUsername
-                password = newbieLandPassword
             }
         }
     }

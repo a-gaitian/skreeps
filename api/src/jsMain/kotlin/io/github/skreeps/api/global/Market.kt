@@ -6,6 +6,7 @@ package io.github.skreeps.api.global
 import io.github.skreeps.api.constants.Error
 import io.github.skreeps.api.constants.Error.*
 import io.github.skreeps.api.constants.Resource
+import io.github.skreeps.api.prototypes.Owner
 import io.github.skreeps.api.utils.Code
 import io.github.skreeps.api.utils.ResultMap
 import io.github.skreeps.api.utils.Timestamp
@@ -337,25 +338,14 @@ external class MarketHistoryEntry {
 external class Transaction {
     val transactionId: String
     val time: Number
-    val sender: TransactionActor
-    val recipient: TransactionActor
+    val sender: Owner
+    val recipient: Owner
     val resourceType: Resource
     val amount: Number
     val from: String
     val to: String
     val description: String
     val order: TransactionOrder?
-}
-
-/**
- * ```
- * {
- *   username: "Me"
- * }
- * ```
- */
-external class TransactionActor {
-    val username: String
 }
 
 /**
