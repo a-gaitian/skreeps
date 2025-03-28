@@ -1,32 +1,28 @@
 @file:OptIn(ExperimentalJsCollectionsApi::class, ExperimentalJsCollectionsApi::class, ExperimentalJsExport::class)
 
 import io.github.skreeps.api.global.*
-import io.github.skreeps.api.utils.get
+import io.github.skreeps.api.prototypes.CostMatrix
+import io.github.skreeps.api.prototypes.RoomPosition
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 fun loop() = try {
 
-    println("Counter: ${Memory.a++}, counter++")
-    if (Memory.b == null) {
-        println("b is null, setting to 'Hi!")
-        Memory.b = "Hi!"
-    } else {
-        println("b is '${Memory.b}', setting to null")
-        Memory.b = null
+    val result = PathFinder.search(
+        RoomPosition(29, 27, "W33S27"),
+        PathFinderGoal(RoomPosition(24, 13, "W33S27"), 1),
+        PathFinderOptions {
+            CostMatrix().apply {
+                set(30, 26, 5)
+            }
+        }
+    )
+
+    println("ops: ${result.ops}, cost: ${result.cost}, incomplete: ${result.incomplete}")
+    result.path.forEach {
+        print("(${it.x}, ${it.y}) -> ")
     }
-
-    val spawn1Memory = Memory.spawns["Spawn1"]!!
-    val c: Int by Game.spawns["Spawn1"]!!.memory
-    println(c)
-
-    val constantA: String? by spawn1Memory.withDefault("Hello World!")
-
-    println("constantA: $constantA")
-
-    var varB: Int by spawn1Memory.withDefault(0)
-
-    println("varB: ${varB++}")
+    println("Target")
 
 } catch (e: Throwable) {
     println(e.stackTraceToString())
