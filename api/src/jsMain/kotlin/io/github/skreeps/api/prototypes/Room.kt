@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalJsExport::class)
+
 package io.github.skreeps.api.prototypes
 
 external class Room {
@@ -30,3 +32,14 @@ object RoomStatuses {
      */
     val Respawn = "respawn"
 }
+
+@JsExport
+sealed interface FindPathOpts {
+    val ignoreCreeps: Boolean
+}
+
+@JsExport
+open class RoomFindPathOpts(
+
+    override val ignoreCreeps: Boolean = false,
+) : FindPathOpts
